@@ -2,14 +2,14 @@ package edu.services;
 
 import edu.validation.ArgumentValidators;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Stream;
 
 public class Market {
     private final String name;
     private List<User> users = new ArrayList<>();
     private List<Product> products = new ArrayList<>();
+
 
 
     public Market(String name) {
@@ -22,14 +22,15 @@ public class Market {
         return isAdd ? "User successfully added in system \n\n" : "Something went wrong! Try again \n\n";
     }
 
-    public void showAllUsers(){
+    public void showAllUsers() {
         System.out.println("Existing users :");
         this.users.stream().forEach(System.out::println);
     }
 
-    public void showAllProducts(){
+    public void showAllProducts() {
         this.products.stream().forEach(System.out::println);
     }
+
     public String addProduct(Product product) {
         boolean isAdd = this.products.add(product);
         return isAdd ? "Product successfully added in system \n\n" : "Something went wrong! Try again \n\n";
@@ -51,6 +52,14 @@ public class Market {
         return "Something went wrong! Try again to remove the user";
     }
 
+    public List<User> getUsers(){
+        return this.users;
+    }
+
+    public List<Product> getProducts(){
+        return this.products;
+    }
+
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer("Market{");
@@ -67,10 +76,5 @@ public class Market {
         if (!(o instanceof Market)) return false;
         Market market = (Market) o;
         return name.equals(market.name) && users.equals(market.users) && products.equals(market.products);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(name, users, products);
     }
 }

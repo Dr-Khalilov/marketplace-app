@@ -31,6 +31,14 @@ public class Main {
                 case 4:
                     removeProductMenu(market);
                     break;
+                case 5:
+                    market.showAllUsers();
+                    break;
+                case 6:
+                    market.showAllProducts();
+                    break;
+                case 7: buyProduct(market);
+                break;
                 default:
                     System.out.println("You choose incorrect value, please chose correct value from 1-4");
             }
@@ -47,8 +55,39 @@ public class Main {
         System.out.println("2. Create product");
         System.out.println("3. Delete user");
         System.out.println("4. Delete product");
+        System.out.println("5. Show all users");
+        System.out.println("6. Show all products");
+        System.out.println("7. Buy product for user");
     }
 
+    private static void buyProduct(Market market){
+        System.out.println("Choose user by id");
+        market.showAllUsers();
+        Scanner scanner = new Scanner(System.in);
+        int selectedUserId = scanner.nextInt();
+
+
+        System.out.println("Choose product by id");
+        market.showAllProducts();
+        int selectedUserID = scanner.nextInt();
+
+
+        User selectedUser = market.getUsers().stream().filter(user -> user.getUniqueId().equals(selectedUserId))
+                .findFirst().get();
+
+        Product selectedProduct = market.getProducts().stream().filter(product -> product.getUniqueId().equals(selectedUserID))
+                .findFirst().get();
+
+        double diff = selectedUser.getMoney() - selectedProduct.getPrice();
+        if(diff < 0){
+            throw new ArithmeticException("");
+        }
+        selectedUser.setMoney(diff);
+        selectedUser.getuProducts().add(selectedProduct);
+        market.getProducts().remove(selectedProduct);
+
+        market.showAllUsers();
+    }
     private static void createProductMenu(Market market) {
         Scanner sc = new Scanner(System.in);
         System.out.println("Please enter the name of product");

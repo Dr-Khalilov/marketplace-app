@@ -2,6 +2,8 @@ package edu.services;
 
 import edu.validation.ArgumentValidators;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class User {
@@ -10,12 +12,30 @@ public class User {
     public String name;
     public String surname;
     private Double money;
+    private List<Product> uProducts;
+
+    public List<Product> getuProducts() {
+        return uProducts;
+    }
+
+    public void setuProducts(List<Product> uProducts) {
+        this.uProducts = uProducts;
+    }
+
+    public void setMoney(Double money) {
+        this.money = money;
+    }
+
+    public Double getMoney() {
+        return money;
+    }
 
     public User(String name, String surname, double money) {
         ArgumentValidators validators = new ArgumentValidators();
         this.name = validators.stringValidator(name, "Name cannot be less than 3 characters");
         this.surname = validators.stringValidator(surname, "Surname cannot be less than 3 characters");
         this.money = validators.numberValidator(money, "Money cannot be less than or equal to zero");
+        this.uProducts = new ArrayList<>();
     }
 
     private Integer generateId(){
@@ -34,6 +54,7 @@ public class User {
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", money=" + money +
+                ", products=" + uProducts +
                 '}';
     }
 

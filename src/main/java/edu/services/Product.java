@@ -8,7 +8,12 @@ public class Product {
     private  static Integer serialId = 0;
     private Integer uniqueId = generateId();
     public String name;
-    public Double price;
+
+    public Double getPrice() {
+        return price;
+    }
+
+    private Double price;
 
     public Product(String name, double price) {
         ArgumentValidators validators = new ArgumentValidators();
