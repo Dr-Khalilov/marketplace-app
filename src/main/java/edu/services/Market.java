@@ -3,12 +3,13 @@ package edu.services;
 import edu.validation.ArgumentValidators;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Market {
     private final String name;
-    private ArrayList<User> users = new ArrayList<>();
-    private ArrayList<Product> products = new ArrayList<>();
+    private List<User> users = new ArrayList<>();
+    private List<Product> products = new ArrayList<>();
 
 
     public Market(String name) {
@@ -18,10 +19,31 @@ public class Market {
 
     public String addUser(User user) {
         boolean isAdd = this.users.add(user);
-        return isAdd ? "User successfully added in system" : "Something went wrong! Try again";
+        return isAdd ? "User successfully added in system \n\n" : "Something went wrong! Try again \n\n";
     }
 
-    public String removeUserById(String id) {
+    public void showAllUsers(){
+        System.out.println("Existing users :");
+        this.users.stream().forEach(System.out::println);
+    }
+
+    public void showAllProducts(){
+        this.products.stream().forEach(System.out::println);
+    }
+    public String addProduct(Product product) {
+        boolean isAdd = this.products.add(product);
+        return isAdd ? "Product successfully added in system \n\n" : "Something went wrong! Try again \n\n";
+    }
+
+    public String removeProductById(int id) {
+        boolean isRemoved = this.products.removeIf(product -> Objects.equals(product.getUniqueId(), id));
+        if (isRemoved) {
+            return "Product successfully removed from the system";
+        }
+        return "Something went wrong! Try again to remove the product";
+    }
+
+    public String removeUserById(int id) {
         boolean isRemoved = this.users.removeIf(user -> Objects.equals(user.getUniqueId(), id));
         if (isRemoved) {
             return "User successfully removed from the system";

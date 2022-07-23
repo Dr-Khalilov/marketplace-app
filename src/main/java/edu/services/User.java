@@ -4,10 +4,12 @@ import edu.validation.ArgumentValidators;
 
 import java.util.Objects;
 
-public class User extends BaseFields {
+public class User {
+    private static Integer serialId = 0;
+    private Integer uniqueId = generateId();
     public String name;
     public String surname;
-    private double money;
+    private Double money;
 
     public User(String name, String surname, double money) {
         ArgumentValidators validators = new ArgumentValidators();
@@ -16,17 +18,23 @@ public class User extends BaseFields {
         this.money = validators.numberValidator(money, "Money cannot be less than or equal to zero");
     }
 
+    private Integer generateId(){
+        this.serialId++;
+        return this.serialId;
+    }
+
+    public Integer getUniqueId() {
+        return uniqueId;
+    }
+
     @Override
     public String toString() {
-        final StringBuffer sb = new StringBuffer("User{");
-        sb.append("uniqueId='").append(uniqueId).append('\'');
-        sb.append(", name='").append(name).append('\'');
-        sb.append(", surname='").append(surname).append('\'');
-        sb.append(", money=").append(money);
-        sb.append(", createdAt=").append(createdAt);
-        sb.append(", updatedAt=").append(updatedAt);
-        sb.append('}');
-        return sb.toString();
+        return "User{" +
+                "uniqueId=" + uniqueId +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", money=" + money +
+                '}';
     }
 
     @Override
@@ -34,11 +42,11 @@ public class User extends BaseFields {
         if (this == o) return true;
         if (!(o instanceof User)) return false;
         User user = (User) o;
-        return Double.compare(user.money, money) == 0 && name.equals(user.name) && surname.equals(user.surname);
+        return uniqueId.equals(user.uniqueId) && name.equals(user.name) && surname.equals(user.surname) && money.equals(user.money);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, surname, money);
+        return Objects.hash(uniqueId, name, surname, money);
     }
 }
