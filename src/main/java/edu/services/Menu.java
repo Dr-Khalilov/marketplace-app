@@ -24,6 +24,7 @@ public class Menu {
                 case 7 -> buyProduct(newMarket);
                 case 8 -> {
                     System.out.println("Goodbye see you soon!");
+                    sc.close();
                     System.exit(0);
                 }
                 default -> System.out.println("You choose incorrect value, please choose correct value from 1-8");
@@ -46,31 +47,36 @@ public class Menu {
         System.out.println("8. Exit from market");
     }
 
-    private void buyProduct(Market market) {
-        System.out.println("Choose user by id");
-        market.showAllUsers();
-        Scanner scanner = new Scanner(System.in);
-        int selectedUserId = scanner.nextInt();
+    private void buyProduct(Market market) throws ArithmeticException {
+        try {
+            System.out.println("Choose user by id");
+            market.showAllUsers();
+            Scanner scanner = new Scanner(System.in);
+            int selectedUserId = scanner.nextInt();
 
-        System.out.println("Choose product by id");
-        market.showAllProducts();
-        int selectedUserID = scanner.nextInt();
+            System.out.println("Choose product by id");
+            market.showAllProducts();
+            int selectedUserID = scanner.nextInt();
 
-        User selectedUser = market.getUsers().stream().filter(user -> user.getUniqueId().equals(selectedUserId))
-                .findFirst().get();
+            User selectedUser = market.getUsers().stream().filter(user -> user.getUniqueId().equals(selectedUserId))
+                    .findFirst().get();
 
-        Product selectedProduct = market.getProducts().stream().filter(product -> product.getUniqueId().equals(selectedUserID))
-                .findFirst().get();
+            Product selectedProduct = market.getProducts().stream().filter(product -> product.getUniqueId().equals(selectedUserID))
+                    .findFirst().get();
 
-        double diff = selectedUser.getAmountOfMoney() - selectedProduct.getPrice();
-        if (diff < 0) {
-            throw new ArithmeticException("Not enough money in the account");
-        } else {
-            selectedUser.setAmountOfMoney(diff);
-            selectedUser.getUserProducts().add(selectedProduct);
-            market.getProducts().remove(selectedProduct);
-            System.out.println("Product successfully purchased");
+            double diff = selectedUser.getAmountOfMoney() - selectedProduct.getPrice();
+            if (diff < 0) {
+                throw new ArithmeticException("Not enough money in the account");
+            } else {
+                selectedUser.setAmountOfMoney(diff);
+                selectedUser.getUserProducts().add(selectedProduct);
+                market.getProducts().remove(selectedProduct);
+                System.out.println("Product successfully purchased");
+            }
+        } catch (ArithmeticException ex) {
+            System.out.println("ArithmeticException => " + ex.getMessage());
         }
+
     }
 
     private void createProductMenu(Market market) {
