@@ -2,18 +2,11 @@ package edu.services;
 
 import edu.validation.ArgumentValidators;
 
-import java.util.Objects;
-
 public class Product {
-    private  static Integer serialId = 0;
-    private Integer uniqueId = generateId();
+    private static Integer serialId = 0;
+    private final Integer uniqueId = generateId();
     public String name;
-
-    public Double getPrice() {
-        return price;
-    }
-
-    private Double price;
+    private final Double price;
 
     public Product(String name, double price) {
         ArgumentValidators validators = new ArgumentValidators();
@@ -21,10 +14,15 @@ public class Product {
         this.price = validators.numberValidator(price, "Price cannot be less than or equal to zero");
     }
 
-    private Integer generateId(){
-        this.serialId++;
-        return this.serialId;
+    public Double getPrice() {
+        return price;
     }
+
+    private Integer generateId() {
+        serialId++;
+        return serialId;
+    }
+
     public Integer getUniqueId() {
         return uniqueId;
     }
@@ -44,10 +42,5 @@ public class Product {
         if (!(o instanceof Product)) return false;
         Product product = (Product) o;
         return uniqueId.equals(product.uniqueId) && name.equals(product.name) && price.equals(product.price);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(uniqueId, name, price);
     }
 }

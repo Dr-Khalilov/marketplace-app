@@ -3,7 +3,7 @@ package edu.validation;
 public class ArgumentValidators {
     public double numberValidator(double number, String message) {
         if (number <= 0) {
-            throw new IllegalArgumentException(message);
+            throw new ArithmeticException(message);
         }
         return number;
     }

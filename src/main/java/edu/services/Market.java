@@ -2,19 +2,23 @@ package edu.services;
 
 import edu.validation.ArgumentValidators;
 
-import java.util.*;
-import java.util.stream.Stream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.StringJoiner;
 
 public class Market {
     private final String name;
-    private List<User> users = new ArrayList<>();
-    private List<Product> products = new ArrayList<>();
-
+    private final List<User> users;
+    private final List<Product> products;
 
 
     public Market(String name) {
         ArgumentValidators validators = new ArgumentValidators();
         this.name = validators.stringValidator(name, "Name of market cannot be less than 3 characters");
+        this.users = new ArrayList<>();
+        this.products = new ArrayList<>();
+
     }
 
     public String addUser(User user) {
@@ -24,11 +28,12 @@ public class Market {
 
     public void showAllUsers() {
         System.out.println("Existing users :");
-        this.users.stream().forEach(System.out::println);
+        this.users.forEach(System.out::println);
     }
 
     public void showAllProducts() {
-        this.products.stream().forEach(System.out::println);
+        System.out.println("Existing products :");
+        this.products.forEach(System.out::println);
     }
 
     public String addProduct(Product product) {
@@ -52,22 +57,21 @@ public class Market {
         return "Something went wrong! Try again to remove the user";
     }
 
-    public List<User> getUsers(){
+    public List<User> getUsers() {
         return this.users;
     }
 
-    public List<Product> getProducts(){
+    public List<Product> getProducts() {
         return this.products;
     }
 
     @Override
     public String toString() {
-        final StringBuffer sb = new StringBuffer("Market{");
-        sb.append("name='").append(name).append('\'');
-        sb.append(", users=").append(users);
-        sb.append(", products=").append(products);
-        sb.append('}');
-        return sb.toString();
+        return new StringJoiner(", ", Market.class.getSimpleName() + "[", "]")
+                .add("name='" + name + "'")
+                .add("users=" + users)
+                .add("products=" + products)
+                .toString();
     }
 
     @Override
