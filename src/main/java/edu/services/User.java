@@ -37,7 +37,7 @@ public class User {
         return amountOfMoney;
     }
 
-    private Integer generateId(){
+    private Integer generateId() {
         serialId++;
         return serialId;
     }
